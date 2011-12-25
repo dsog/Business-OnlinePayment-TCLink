@@ -98,7 +98,7 @@ sub submit {
         country        => 'country',
         phone          => 'phone',
         email          => 'email',
-	order_number   => 'transid'
+        order_number   => 'transid'
     );
 
     if($self->transaction_type() eq "ach") {
@@ -109,8 +109,8 @@ sub submit {
         $self->required_fields(qw/login password action amount order_number
                                   card_number expiration/);
       } else {
-        $self->required_fields(qw/login password action amount first_name
-                                  last_name card_number expiration/);
+        $self->required_fields(qw/login password action amount card_number
+                                  expiration/);
       }
     } else {
         Carp::croak("TrustCommerce can't handle transaction type: ".
@@ -123,9 +123,11 @@ sub submit {
                                       email transid/);
     $params{'demo'} = $self->test_transaction() ? 'y' : 'n';
     $params{'avs'} = $self->require_avs() ? 'y' : 'n';
-    $params{'name'} = $params{'first_name'} . ' ' . $params{'last_name'};
-    delete $params{'first_name'};
-    delete $params{'last_name'};
+    if($params{first_name} and $params{last_name}){
+        $params{'name'} = $params{'first_name'} . ' ' . $params{'last_name'};
+        delete $params{'first_name'};
+        delete $params{'last_name'};
+    }
     $params{'amount'} =~ s/\D//g; # strip non-digits
     $params{'cc'} =~ s/\D//g;
     $params{'exp'} =~ s/\D//g;
