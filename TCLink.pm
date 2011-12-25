@@ -49,7 +49,7 @@ sub map_fields {
                  'cc'                 => 'cc',
                  'check'              => 'ach',
                 );
-    $content{'type'} = $types{lc($content{'type'})} || $content{'type'};
+    $content{'type'} = $types{lc($content{'type'})} || $content{'type'} || 'cc';
     $self->transaction_type($content{'type'});
 
     # stuff it back into %content
@@ -149,10 +149,11 @@ sub submit {
             if ($results{'declinetype'} eq 'carderror') {
                 $error = 'The credit card number is invalid.';
             } else {
-                $error = 'The credit card transaction was declined.';
+                $error = 'The credit card transaction was declined. ' .
+                $results{'declinetype'};
             }
 	} elsif ($results{'status'} eq 'baddata') {
-            $error = 'The transaction data is invalid.';
+            $error = 'The transaction data is invalid. ' . $results{offenders};
 	} elsif ($results{'status'} eq 'error') {
             $error = 'There was a network failure during processing.';
 	}
