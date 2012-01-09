@@ -106,8 +106,7 @@ sub submit {
                                   last_name account_number routing_code/);
     } elsif($self->transaction_type() eq 'cc' ) {
       if ( $self->{_content}->{action} eq 'postauth' ) {
-        $self->required_fields(qw/login password action amount order_number
-                                  card_number expiration/);
+        $self->required_fields(qw/login password action amount order_number/);
       } else {
         $self->required_fields(qw/login password action amount card_number
                                   expiration/);
