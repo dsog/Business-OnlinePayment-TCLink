@@ -110,7 +110,6 @@ sub submit {
       } else {
         $self->required_fields(qw/login password action amount card_number
                                   expiration/);
-        $params{'avs'} = $self->require_avs() ? 'y' : 'n';
       }
     } else {
         Carp::croak("TrustCommerce can't handle transaction type: ".
@@ -122,6 +121,9 @@ sub submit {
                                       zip cc exp account routing country phone
                                       email transid/);
     $params{'demo'} = $self->test_transaction() ? 'y' : 'n';
+    if ($self->{_content}->{action} eq 'postauth'){
+        $params{'avs'} = $self->require_avs() ? 'y' : 'n';
+    }
     if($params{first_name} and $params{last_name}){
         $params{'name'} = $params{'first_name'} . ' ' . $params{'last_name'};
         delete $params{'first_name'};
