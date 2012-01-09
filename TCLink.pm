@@ -127,10 +127,14 @@ sub submit {
         delete $params{'first_name'};
         delete $params{'last_name'};
     }
-    $params{'amount'} =~ s/\D//g; # strip non-digits
-    $params{'cc'} =~ s/\D//g;
-    $params{'exp'} =~ s/\D//g;
-    $params{'exp'} = '0' . $params{'exp'} if length($params{'exp'}) == 3;
+    $params{amount} =~ s/\D//g; # strip non-digits
+    if ($params{cc}){
+        $params{cc} =~ s/\D//g;
+    }
+    if ($params{exp}){
+        $params{exp} =~ s/\D//g;
+        $params{exp} = '0' . $params{'exp'} if length($params{'exp'}) == 3;
+    }
 
     my %results = Net::TCLink::send(\%params);
 
