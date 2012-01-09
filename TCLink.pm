@@ -80,7 +80,7 @@ sub submit {
 
     $self->map_fields();
     $self->remap_fields(
-        type           => 'media',
+        #type           => 'media',
         login          => 'custid',
         password       => 'password',
         action         => 'action',
