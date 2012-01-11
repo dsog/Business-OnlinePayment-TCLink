@@ -122,7 +122,7 @@ sub submit {
                                       zip cc exp account routing country phone
                                       email transid/);
     $params{'demo'} = $self->test_transaction() ? 'y' : 'n';
-    if ($self->{_content}->{action} ne 'postauth'){
+    if (! ($self->{_content}->{action} ~~ /postauth|reversal/)){
         $params{'avs'} = $self->require_avs() ? 'y' : 'n';
     }
     if($params{first_name} and $params{last_name}){
