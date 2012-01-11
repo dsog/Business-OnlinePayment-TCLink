@@ -33,6 +33,7 @@ sub map_fields {
                    'authorization only'   => 'preauth',
                    'credit'               => 'credit',
                    'post authorization'   => 'postauth',
+                   'void'                 => 'reversal',
                   );
     $content{'action'} = $actions{lc($content{'action'})} || $content{'action'};
 
@@ -105,7 +106,7 @@ sub submit {
         $self->required_fields(qw/type login password action amount first_name
                                   last_name account_number routing_code/);
     } elsif($self->transaction_type() eq 'cc' ) {
-      if ( $self->{_content}->{action} eq 'postauth' ) {
+      if ( $self->{_content}->{action} ~~ /postauth|reversal/ ) {
         $self->required_fields(qw/login password action amount order_number/);
       } else {
         $self->required_fields(qw/login password action amount card_number
