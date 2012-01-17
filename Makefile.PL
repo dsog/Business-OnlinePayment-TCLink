@@ -3,7 +3,7 @@ use ExtUtils::MakeMaker;
 # the contents of the Makefile that is written.
 WriteMakefile(
     'NAME'         => 'Business::OnlinePayment::TCLink',
-    'VERSION_FROM' => 'TCLink.pm', # finds $VERSION
+    'VERSION_FROM' => 'lib/Business/OnlinePayment/TCLink.pm', # finds $VERSION
     'AUTHOR'       => 'Dan Helfman <developer@trustcommerce.com>',
     #'NORECURS'     => 1, # dont descend into subdirectories
     'PREREQ_PM'    => { 'Net::TCLink' => 0,
